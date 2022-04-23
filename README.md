@@ -20,12 +20,33 @@ composer require uuf6429/php-castable "^1.0"
 
 - Works with simple types and objects
 - `cast($value, $type)` function that converts a value to a target type.
-- `Castable` interface, exposes function called whenever cast() is called on objects implementing this interface.
+- `Castable` interface, exposes method that is called whenever `cast()` is called on objects implementing this interface.
 - Error handling - all errors routed to `NotCastableException`
 - Fixes type-hinting for PhpStorm
 - PHP 5.6+ (but seriously, stop using PHP 5 :))
 
 While `cast()` is just a regular PHP function, it would be the equivalent to type-casting operators in other languages (e.g. `val as Type`, `(Type)val`, `val.to(Type)`, `CAST(val, TYPE)`...).
+
+## 🚀 Example
+
+```php
+class Cat implements \uuf6429\Castable\Castable
+{
+    public function castTo($type)
+    {
+        if ($type === Dog::class) {
+            return new Dog();
+        }
+
+        throw new RuntimeException("Unsupported type $type.");
+    }
+}
+
+class Dog {}
+
+$dog = \uuf6429\Castable\cast(new Cat(), Dog::class); // ok, cat becomes a dog :)
+$cat = \uuf6429\Castable\cast($dog, Cat::class);      // not allowed
+```
 
 ## 🔍 Casting Behaviour
 
