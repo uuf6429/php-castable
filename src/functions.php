@@ -1,9 +1,7 @@
 <?php
 
-namespace uuf6429\Castable;
-
-use Exception;
-use Throwable;
+use uuf6429\Castable\Castable;
+use uuf6429\Castable\NotCastableException;
 
 function cast($value, $type)
 {
