@@ -5,8 +5,9 @@ namespace uuf6429\Castable;
 interface Castable
 {
     /**
-     * @param string $type
-     * @return mixed
+     * @template T
+     * @param class-string<T> $type
+     * @return T
      */
-    public function castTo($type);
+    public function castTo(string $type);
 }

@@ -6,7 +6,11 @@ use InvalidArgumentException;
 
 class ExampleCastableClass implements Castable
 {
-    public function castTo($type)
+    /**
+     * @param string $type
+     * @return int|string
+     */
+    public function castTo(string $type)
     {
         switch ($type) {
             case 'int':
