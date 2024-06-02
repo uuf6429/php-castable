@@ -3,3 +3,12 @@ parameters:
     paths:
         - src
         - tests
+    ignoreErrors:
+        -
+            message: "#^Function uuf6429\\\\Castable\\\\cast\\(\\) should return T but returns object\\.$#"
+            count: 1
+            path: src/functions.php
+        -
+            message: "#^Unable to resolve the template type T in call to method uuf6429\\\\Castable\\\\Castable\\:\\:castTo\\(\\)$#"
+            count: 1
+            path: src/functions.php

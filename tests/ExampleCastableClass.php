@@ -2,16 +2,11 @@
 
 namespace uuf6429\Castable;
 
-use InvalidArgumentException;
-
 class ExampleCastableClass implements Castable
 {
-    /**
-     * @param string $type
-     * @return int|string
-     */
-    public function castTo(string $type)
+    public function castTo(string $type): int|string
     {
+        /** @noinspection PhpSwitchCanBeReplacedWithMatchExpressionInspection */
         switch ($type) {
             case 'int':
                 return 123;
@@ -20,7 +15,7 @@ class ExampleCastableClass implements Castable
                 return 'example';
 
             default:
-                throw new InvalidArgumentException("Unsupported cast type: $type");
+                throw new NotCastableException("Unsupported cast type: $type");
         }
     }
 }

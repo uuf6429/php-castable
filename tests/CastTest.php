@@ -12,7 +12,7 @@ class CastTest extends TestCase
      * @param mixed $originalValue
      * @param class-string $targetType
      */
-    public function test_that_invalid_casting_triggers_exception($originalValue, string $targetType): void
+    public function test_that_invalid_casting_triggers_exception(mixed $originalValue, string $targetType): void
     {
         $this->expectException(NotCastableException::class);
 
@@ -30,12 +30,12 @@ class CastTest extends TestCase
         ];
 
         yield 'invalid conversion; object to string' => [
-            'originalValue' => (object)[],
+            'originalValue' => (object) [],
             'targetType' => 'string',
         ];
 
         yield 'invalid conversion; object to specific class' => [
-            'originalValue' => (object)[],
+            'originalValue' => (object) [],
             'targetType' => ArrayObject::class,
         ];
 
@@ -51,8 +51,11 @@ class CastTest extends TestCase
      * @param class-string $targetType
      * @param mixed $expectedValue
      */
-    public function test_that_valid_casting_returns_expected_value($originalValue, string $targetType, $expectedValue): void
-    {
+    public function test_that_valid_casting_returns_expected_value(
+        mixed $originalValue,
+        string $targetType,
+        mixed $expectedValue
+    ): void {
         $this->assertSame($expectedValue, cast($originalValue, $targetType));
     }
 

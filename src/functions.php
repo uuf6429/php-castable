@@ -9,8 +9,9 @@ use Throwable;
  * @param mixed $value
  * @param class-string<T> $type
  * @return T
+ * @throws NotCastableException
  */
-function cast($value, string $type)
+function cast(mixed $value, string $type)
 {
     static $basicTypes = ['bool', 'string', 'int', 'float', 'array', 'object', 'null'];
     static $typeAliases = ['boolean' => 'bool', 'integer' => 'int', 'double' => 'float'];
@@ -35,16 +36,11 @@ function cast($value, string $type)
         }
 
         throw new NotCastableException(
-            sprintf('Cannot cast %s to %s', is_object($value) ? get_class($value) : gettype($value), $type)
+            sprintf('Cannot cast %s to %s', get_debug_type($value), $type)
         );
     } catch (Throwable $ex) {
         throw new NotCastableException(
-            sprintf(
-                'Cannot cast %s to %s: %s',
-                is_object($value) ? get_class($value) : gettype($value),
-                $type,
-                $ex->getMessage()
-            ),
+            sprintf('Cannot cast %s to %s: %s', get_debug_type($value), $type, $ex->getMessage()),
             0,
             $ex
         );

@@ -8,6 +8,7 @@ interface Castable
      * @template T
      * @param class-string<T> $type
      * @return T
+     * @throws NotCastableException
      */
     public function castTo(string $type);
 }
