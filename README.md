@@ -13,7 +13,7 @@ Basic groundwork for type-casting in PHP.
 The recommended and easiest way to install this library is through Composer:
 
 ```shell
-composer require uuf6429/php-castable "^1.0"
+composer require uuf6429/php-castable
 ```
 
 ## ⭐️ Features / Functionality
