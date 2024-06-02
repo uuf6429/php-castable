@@ -3,85 +3,101 @@
 namespace uuf6429\Castable;
 
 use ArrayObject;
+use PHPUnit\Framework\TestCase;
 
-class CastTest extends BaseTestCase
+class CastTest extends TestCase
 {
     /**
      * @dataProvider invalidCastingDataProvider
+     * @param mixed $originalValue
+     * @param class-string $targetType
      */
-    public function test_that_invalid_casting_triggers_exception($originalValue, $targetType)
+    public function test_that_invalid_casting_triggers_exception(mixed $originalValue, string $targetType): void
     {
         $this->expectException(NotCastableException::class);
 
         cast($originalValue, $targetType);
     }
 
-    public function invalidCastingDataProvider()
+    /**
+     * @return iterable<string, array{originalValue: mixed, targetType: string}>
+     */
+    public static function invalidCastingDataProvider(): iterable
     {
-        return [
-            'invalid data type of target type' => [
-                '$originalValue' => 1,
-                '$targetType' => 1,
-            ],
-            'invalid target type' => [
-                '$originalValue' => 1,
-                '$targetType' => 'invalid',
-            ],
-            'invalid conversion; object to integer' => [
-                '$originalValue' => (object)[],
-                '$targetType' => 'integer',
-            ],
-            'invalid conversion; object to specific class' => [
-                '$originalValue' => (object)[],
-                '$targetType' => ArrayObject::class,
-            ],
-            'converting example object unsupported type' => [
-                '$originalValue' => new ExampleCastableClass(),
-                '$targetType' => 'someType',
-            ],
-            'as per php, aliases should not work' => [
-                '$originalValue' => new ExampleCastableClass(),
-                '$targetType' => 'integer',
-            ],
+        yield 'invalid target type' => [
+            'originalValue' => 1,
+            'targetType' => 'invalid',
+        ];
+
+        yield 'invalid conversion; object to string' => [
+            'originalValue' => (object) [],
+            'targetType' => 'string',
+        ];
+
+        yield 'invalid conversion; object to specific class' => [
+            'originalValue' => (object) [],
+            'targetType' => ArrayObject::class,
+        ];
+
+        yield 'converting example object unsupported type' => [
+            'originalValue' => new ExampleCastableClass(),
+            'targetType' => 'someType',
         ];
     }
 
     /**
      * @dataProvider validCastingDataProvider
+     * @param mixed $originalValue
+     * @param class-string $targetType
+     * @param mixed $expectedValue
      */
-    public function test_that_valid_casting_returns_expected_value($originalValue, $targetType, $expectedValue)
-    {
+    public function test_that_valid_casting_returns_expected_value(
+        mixed $originalValue,
+        string $targetType,
+        mixed $expectedValue
+    ): void {
         $this->assertSame($expectedValue, cast($originalValue, $targetType));
     }
 
-    public function validCastingDataProvider()
+    /**
+     * @return iterable<string, array{originalValue: mixed, targetType: string, expectedValue: mixed}>
+     */
+    public static function validCastingDataProvider(): iterable
     {
-        return [
-            'converting number to string' => [
-                '$originalValue' => 123,
-                '$targetType' => 'string',
-                '$expectedValue' => '123',
-            ],
-            'converting number to boolean' => [
-                '$originalValue' => 1,
-                '$targetType' => 'bool',
-                '$expectedValue' => true,
-            ],
-            'converting float to integer (lossy)' => [
-                '$originalValue' => 123.456,
-                '$targetType' => 'int',
-                '$expectedValue' => 123,
-            ],
-            'converting specific object to generic object' => [
-                '$originalValue' => ($inst = new ArrayObject()),
-                '$targetType' => 'object',
-                '$expectedValue' => $inst,
-            ],
-            'converting example object to number should work' => [
-                '$originalValue' => new ExampleCastableClass(),
-                '$targetType' => 'int',
-                '$expectedValue' => 123,
-            ],
+        yield 'converting number to string' => [
+            'originalValue' => 123,
+            'targetType' => 'string',
+            'expectedValue' => '123',
+        ];
+
+        yield 'converting number to boolean' => [
+            'originalValue' => 1,
+            'targetType' => 'bool',
+            'expectedValue' => true,
+        ];
+
+        yield 'converting float to integer (lossy)' => [
+            'originalValue' => 123.456,
+            'targetType' => 'int',
+            'expectedValue' => 123,
+        ];
+
+        yield 'converting specific object to generic object' => [
+            'originalValue' => ($inst = new ArrayObject()),
+            'targetType' => 'object',
+            'expectedValue' => $inst,
+        ];
+
+        yield 'converting example object to number should work' => [
+            'originalValue' => new ExampleCastableClass(),
+            'targetType' => 'int',
+            'expectedValue' => 123,
+        ];
+
+        yield 'example object to example object should be unchanged' => [
+            'originalValue' => $orig = new ExampleCastableClass(),
+            'targetType' => ExampleCastableClass::class,
+            'expectedValue' => $orig,
         ];
     }
 }
