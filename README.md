@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/uuf6429/php-castable/branch/main/graph/badge.svg)](https://codecov.io/gh/uuf6429/php-castable)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%5E8-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/uuf6429/php-castable/license)](https://packagist.org/packages/uuf6429/php-castable)
-[![Latest Stable Version](https://poser.pugx.org/uuf6429/php-castable/version)](https://packagist.org/packages/uuf6429/php-castable)
+[![Latest Stable Version](https://poser.pugx.org/uuf6429/php-castable/v)](https://packagist.org/packages/uuf6429/php-castable)
 [![Latest Unstable Version](https://poser.pugx.org/uuf6429/php-castable/v/unstable)](https://packagist.org/packages/uuf6429/php-castable)
 
 Basic groundwork for type-casting in PHP.
